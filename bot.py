@@ -7,8 +7,13 @@ import sqlite3
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+from config import BOT_TOKEN
+
+# use BOT_TOKEN in your bot initialization
+
 # Your bot token from BotFather
-TOKEN = '7898037219:AAErz9SwZhxxhpcEAnhmTReF5bFtXujekbY'
+#TOKEN = '78xxxxx:AAErxxx'
+
 
 # Initialize database
 conn = sqlite3.connect('bot.db', check_same_thread=False)
@@ -66,4 +71,5 @@ def main() -> None:
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == '__main__':
+
     main()
