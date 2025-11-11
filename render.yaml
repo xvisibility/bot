@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: xvisibility-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py  # ← This is where you specify it
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
