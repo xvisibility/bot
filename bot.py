@@ -1,4 +1,5 @@
 import logging
+import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 import sqlite3
@@ -7,13 +8,14 @@ import sqlite3
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-from config import BOT_TOKEN
+# Get BOT_TOKEN from environment variable (Render)
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
-# use BOT_TOKEN in your bot initialization
-
-# Your bot token from BotFather
-#TOKEN = '78xxxxx:AAErxxx'
-
+# Check if token is available
+if not BOT_TOKEN:
+    logger.error("No BOT_TOKEN found in environment variables!")
+    # You might want to exit or handle this differently
+    raise ValueError("BOT_TOKEN environment variable is required")
 
 # Initialize database
 conn = sqlite3.connect('bot.db', check_same_thread=False)
@@ -65,11 +67,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 def main() -> None:
     """Start the bot."""
-    application = Application.builder().token(TOKEN).build()
+    # Use BOT_TOKEN from environment variable
+    application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button_handler))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == '__main__':
-
     main()
